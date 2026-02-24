@@ -1,5 +1,16 @@
+set_proxy_env_vars() {
+    local server=$1
+    export http_proxy=$server
+    export https_proxy=$server
+    export ftp_proxy=$server
+}
+
 default_operation() {
-    echo default_operation
+    local ip=127.0.0.1
+    local port=10808
+    set_proxy_env_vars http://$ip:$port
+    echo The proxy has been set to:
+    env | grep --color=never proxy
 }
 
 set_proxy () {
