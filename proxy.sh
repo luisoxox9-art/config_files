@@ -15,27 +15,77 @@ default_operation() {
     env | grep --color=never proxy
 }
 
-check_format_of_ip_and_port() {
-    # TODO
-    :
+# NOTE: code from gemini
+is_valid_ip() {
+    local ip=$1
+    local stat=1
+    local regex="^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$"
+    if [[ $ip =~ $regex ]]; then
+        OIFS=$IFS
+        IFS="."
+        ip_array=($ip)
+        IFS=$OIFS
+
+        [[ ${ip_array[0]} -le 255 \
+        && ${ip_array[1]} -le 255 \
+        && ${ip_array[2]} -le 255 \
+        && ${ip_array[3]} -le 255 ]]
+        stat=$?
+    fi
+    return $stat
+}
+
+# NOTE: code from gemini
+is_valid_port() {
+    local port=$1
+    local stat=1
+    #local regex="^[0-9]+$"
+    local regex="^[1-9][0-9]{0,4}$"
+    if [[ -n "$port" && "$port" =~ $regex ]]; then
+        if [ "$port" -ge 1 ] && [ "$port" -le 65535 ]; then
+            return 0
+        fi
+    fi
+    return 1
+}
+
+check_format_of_ip() {
+    ip=$1
+    if ! is_valid_ip $ip; then
+        echo "invalid ip, set to default(127.0.0.1)"
+        ip=127.0.0.1
+    fi
+}
+
+check_format_of_port() {
+    port=$1
+    if ! is_valid_port $port; then
+        echo "invalid port, set to default(10808)"
+        port=10808
+    fi
 }
 
 set_proxy () {
     local numbers_of_args=$#
     if (( $numbers_of_args == 1 )); then
         read -p "ip: " ip
+        check_format_of_ip $ip
         read -p "port: " port
+        check_format_of_port $port
     elif (( $numbers_of_args == 2 )); then
         local ip=$2
+        check_format_of_ip $ip
         read -p "port: " port
+        check_format_of_port $port
     elif (( $numbers_of_args == 3 )); then
         local ip=$2
         local port=$3
+        check_format_of_ip $ip
+        check_format_of_port $port
     elif (( $numbers_of_args > 3 )); then
         print_help_info
         return 0
     fi
-    check_format_of_ip_and_port
     local server=http://$ip:$port
     set_proxy_env_vars $server
     echo The proxy has been set to:
