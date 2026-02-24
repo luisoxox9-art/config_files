@@ -13,15 +13,40 @@ default_operation() {
     env | grep --color=never proxy
 }
 
+check_format_of_ip_and_port() {
+    # TODO
+    :
+}
+
 set_proxy () {
-    echo set_proxy
+    local numbers_of_args=$#
+    if (( $numbers_of_args == 1 )); then
+        read -p "ip: " ip
+        read -p "port: " port
+    elif (( $numbers_of_args == 2 )); then
+        local ip=$2
+        read -p "port: " port
+    elif (( $numbers_of_args == 3 )); then
+        local ip=$2
+        local port=$3
+    elif (( $numbers_of_args > 3 )); then
+        print_help_info
+        return 0
+    fi
+    check_format_of_ip_and_port
+    local server=http://$ip:$port
+    set_proxy_env_vars $server
+    echo The proxy has been set to:
+    env | grep --color=never proxy
 }
 
 unset_proxy () {
+    # TODO
     echo unset_proxy
 }
 
 print_help_info() {
+    # TODO
     echo "Usage:
 $ . proxy.sh [set|unset|help]
 OR
@@ -60,7 +85,7 @@ case $operation in
         default_operation
     ;;
     set_proxy)
-        set_proxy
+        set_proxy $*
     ;;
     unset_proxy)
         unset_proxy
