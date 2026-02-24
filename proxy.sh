@@ -41,8 +41,10 @@ set_proxy () {
 }
 
 unset_proxy () {
-    # TODO
-    echo unset_proxy
+    unset http_proxy
+    unset https_proxy
+    unset ftp_proxy
+    echo proxy has been clear.
 }
 
 print_help_info() {
