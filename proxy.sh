@@ -109,8 +109,8 @@ source proxy.sh set [ip] [port]
 
 command:
 - set:      set proxy envionment variables
-            ip:     ip address of the proxy server
-            port:   port of the proxy server
+            - ip: ip address of the proxy server
+            - port: port of the proxy server
 - unset:    unset proxy envionment variables
 - help:     show help infomations"
 }
