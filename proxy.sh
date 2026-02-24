@@ -50,15 +50,19 @@ unset_proxy () {
 }
 
 print_help_info() {
-    # TODO
     echo "Usage:
-$ . proxy.sh [set|unset|help]
+. proxy.sh [unset|help]
+. proxy.sh set [ip] [port]
 OR
-$ source proxy.sh [set|unset|help]
+source proxy.sh [unset|help]
+source proxy.sh set [ip] [port]
 
-set:   set proxy envionment variables
-unset: unset proxy envionment variables
-help:  show help infomations"
+command:
+- set:      set proxy envionment variables
+            ip:     ip address of the proxy server
+            port:   port of the proxy server
+- unset:    unset proxy envionment variables
+- help:     show help infomations"
 }
 
 parse_command_line_args() {
