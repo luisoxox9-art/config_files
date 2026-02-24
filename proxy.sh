@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 set_proxy_env_vars() {
     local server=$1
     export http_proxy=$server
@@ -87,7 +89,7 @@ case $operation in
         default_operation
     ;;
     set_proxy)
-        set_proxy $*
+        set_proxy $command_line_args
     ;;
     unset_proxy)
         unset_proxy
