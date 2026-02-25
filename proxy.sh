@@ -65,6 +65,7 @@ check_format_of_port() {
     fi
 }
 
+# TODO: need test
 set_proxy () {
     local numbers_of_args=$#
     if (( $numbers_of_args == 1 )); then
@@ -115,6 +116,7 @@ command:
 - help:     show help infomations"
 }
 
+# TODO: need test
 parse_command_line_args() {
     local numbers_of_args=$#
     if (( numbers_of_args == 0 )); then
